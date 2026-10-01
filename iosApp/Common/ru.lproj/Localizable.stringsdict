@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>caption_elapsed</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@days@</string>
+		<key>days</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>день прошёл</string>
+			<key>few</key>
+			<string>дня прошло</string>
+			<key>many</key>
+			<string>дней прошло</string>
+			<key>other</key>
+			<string>дня прошло</string>
+		</dict>
+	</dict>
+	<key>caption_remaining</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@days@</string>
+		<key>days</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>день остался</string>
+			<key>few</key>
+			<string>дня осталось</string>
+			<key>many</key>
+			<string>дней осталось</string>
+			<key>other</key>
+			<string>дня осталось</string>
+		</dict>
+	</dict>
+	<key>caption_ago</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@days@</string>
+		<key>days</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>ld</string>
+			<key>one</key>
+			<string>день назад</string>
+			<key>few</key>
+			<string>дня назад</string>
+			<key>many</key>
+			<string>дней назад</string>
+			<key>other</key>
+			<string>дня назад</string>
+		</dict>
+	</dict>
+</dict>
+</plist>

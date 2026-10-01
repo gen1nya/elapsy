@@ -1,0 +1,135 @@
+name: Elapsy
+options:
+  bundleIdPrefix: app.elapsy
+  deploymentTarget:
+    iOS: "16.0"
+  developmentLanguage: en
+  createIntermediateGroups: true
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    MARKETING_VERSION: "1.0.0"
+    CURRENT_PROJECT_VERSION: "2"
+    TARGETED_DEVICE_FAMILY: "1"
+    DEVELOPMENT_TEAM: S8PRHP388M
+    CODE_SIGN_STYLE: Automatic
+    # The Kotlin framework is built by Gradle (see SharedFramework) and linked statically.
+    ENABLE_USER_SCRIPT_SANDBOXING: "NO"
+    OTHER_LDFLAGS: ["$(inherited)", "-framework", "Shared"]
+    "FRAMEWORK_SEARCH_PATHS[sdk=iphonesimulator*]": "$(SRCROOT)/../core/build/bin/iosSimulatorArm64/$(KOTLIN_FRAMEWORK_BUILD_TYPE)Framework"
+    "FRAMEWORK_SEARCH_PATHS[sdk=iphoneos*]": "$(SRCROOT)/../core/build/bin/iosArm64/$(KOTLIN_FRAMEWORK_BUILD_TYPE)Framework"
+  configs:
+    Debug:
+      KOTLIN_FRAMEWORK_BUILD_TYPE: debug
+    Release:
+      KOTLIN_FRAMEWORK_BUILD_TYPE: release
+
+aggregateTargets:
+  SharedFramework:
+    buildScripts:
+      - name: Build Kotlin framework
+        basedOnDependencyAnalysis: false
+        script: |
+          set -e
+          cd "$SRCROOT/.."
+          export JAVA_HOME="${JAVA_HOME:-$(/usr/libexec/java_home -v 21)}"
+          export ANDROID_HOME="${ANDROID_HOME:-$HOME/Library/Android/sdk}"
+          case "$PLATFORM_NAME" in
+            iphonesimulator) target=IosSimulatorArm64 ;;
+            iphoneos) target=IosArm64 ;;
+            *) echo "Unsupported platform $PLATFORM_NAME" >&2; exit 1 ;;
+          esac
+          if [ "$CONFIGURATION" = "Release" ]; then type=Release; else type=Debug; fi
+          ./gradlew ":core:link${type}Framework${target}" --console=plain -q
+
+targets:
+  Elapsy:
+    type: application
+    platform: iOS
+    sources:
+      - App
+      - Common
+      - Intent
+    dependencies:
+      - target: SharedFramework
+      - target: ElapsyWidget
+      - target: ElapsyIntents
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: app.elapsy
+        TARGETED_DEVICE_FAMILY: "1"
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+    info:
+      path: App/Info.plist
+      properties:
+        CFBundleDisplayName: Elapsy
+        CFBundleShortVersionString: "$(MARKETING_VERSION)"
+        CFBundleVersion: "$(CURRENT_PROJECT_VERSION)"
+        CFBundleLocalizations: [en, ru]
+        UILaunchScreen: {}
+        UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
+        ITSAppUsesNonExemptEncryption: false
+    entitlements:
+      path: App/Elapsy.entitlements
+      properties:
+        com.apple.security.application-groups: [group.app.elapsy]
+
+  ElapsyWidget:
+    type: app-extension
+    platform: iOS
+    sources:
+      - Widget
+      - Common
+      - Intent
+    dependencies:
+      - target: SharedFramework
+      - sdk: WidgetKit.framework
+      - sdk: SwiftUI.framework
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: app.elapsy.widget
+        TARGETED_DEVICE_FAMILY: "1"
+    info:
+      path: Widget/Info.plist
+      properties:
+        CFBundleDisplayName: Elapsy
+        CFBundleShortVersionString: "$(MARKETING_VERSION)"
+        CFBundleVersion: "$(CURRENT_PROJECT_VERSION)"
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
+    entitlements:
+      path: Widget/ElapsyWidget.entitlements
+      properties:
+        com.apple.security.application-groups: [group.app.elapsy]
+
+  ElapsyIntents:
+    type: app-extension
+    platform: iOS
+    sources:
+      - Intents
+      - Intent
+      - Common/AppGroup.swift
+      - Common/KotlinDates.swift
+      - Common/PrivacyInfo.xcprivacy
+    dependencies:
+      - target: SharedFramework
+      - sdk: Intents.framework
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: app.elapsy.intents
+        TARGETED_DEVICE_FAMILY: "1"
+    info:
+      path: Intents/Info.plist
+      properties:
+        CFBundleDisplayName: Elapsy
+        CFBundleShortVersionString: "$(MARKETING_VERSION)"
+        CFBundleVersion: "$(CURRENT_PROJECT_VERSION)"
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.intents-service
+          NSExtensionPrincipalClass: "$(PRODUCT_MODULE_NAME).IntentHandler"
+          NSExtensionAttributes:
+            IntentsSupported: [SelectEventIntent]
+    entitlements:
+      path: Intents/ElapsyIntents.entitlements
+      properties:
+        com.apple.security.application-groups: [group.app.elapsy]

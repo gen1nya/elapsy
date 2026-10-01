@@ -1,0 +1,205 @@
+<resources>
+    <string name="app_name">Elapsy</string>
+
+    <!-- Caption under the day count. The number itself is rendered separately. -->
+    <plurals name="caption_elapsed">
+        <item quantity="one">day passed</item>
+        <item quantity="other">days passed</item>
+    </plurals>
+    <plurals name="caption_remaining">
+        <item quantity="one">day left</item>
+        <item quantity="other">days left</item>
+    </plurals>
+    <plurals name="caption_ago">
+        <item quantity="one">day ago</item>
+        <item quantity="other">days ago</item>
+    </plurals>
+    <string name="caption_today">today</string>
+
+    <!-- Date line of an elapsed event; %1$s is the start date. -->
+    <string name="date_range_until_today">%1$s — today</string>
+
+    <string name="back">Back</string>
+    <string name="cancel">Cancel</string>
+    <string name="done">Done</string>
+    <string name="add_event">Add event</string>
+    <string name="sort_events">Sort events</string>
+    <string name="settings">Settings</string>
+    <string name="empty_title">Your events will appear here</string>
+    <string name="empty_description">Create your first event to start counting the days.</string>
+    <string name="create_first_event">Create your first event</string>
+    <string name="create_event">Create event</string>
+    <string name="edit_event">Edit</string>
+    <string name="edit_event_title">Edit event</string>
+    <string name="new_event">New event</string>
+    <string name="duplicate_event">Duplicate</string>
+    <string name="delete_event">Delete event</string>
+    <string name="delete_event_title">Delete event?</string>
+    <string name="delete_event_message">“%1$s” will be permanently deleted.</string>
+    <string name="delete">Delete</string>
+    <string name="move_up">Move up</string>
+    <string name="move_down">Move down</string>
+    <string name="event_actions">Event actions</string>
+    <string name="sort_custom">Custom order</string>
+    <string name="sort_newest">Newest first</string>
+    <string name="sort_oldest">Oldest first</string>
+    <string name="sort_name">By name</string>
+    <string name="sort_days">By number of days</string>
+    <string name="sort_nearest">Nearest events</string>
+    <string name="event_name">Name</string>
+    <string name="event_name_placeholder">Your event</string>
+    <string name="event_name_example">e.g. Vacation</string>
+    <string name="name_length">%1$d / %2$d</string>
+    <string name="count_type">What to count</string>
+    <string name="type_elapsed">Days passed</string>
+    <string name="type_remaining">Days left</string>
+    <string name="type_ago">Days ago</string>
+    <string name="start_date">Start date</string>
+    <string name="end_date">End date</string>
+    <string name="event_date">Event date</string>
+    <string name="color">Color</string>
+    <string name="background">Background</string>
+    <string name="background_system">System</string>
+    <string name="background_solid">Solid</string>
+    <string name="background_gradient">Gradient</string>
+    <string name="preview_shape">Preview shape</string>
+    <string name="shape_square">Square</string>
+    <string name="shape_rectangle">Rectangle</string>
+    <string name="icon">Emoji</string>
+    <string name="no_icon">None</string>
+    <string name="save_changes">Save changes</string>
+    <string name="save_failed">Could not save changes. Please try again.</string>
+    <string name="event_description">%1$s, %2$s %3$s, %4$s</string>
+    <string name="event_unavailable">Event unavailable. Return to events</string>
+    <string name="theme">Theme</string>
+    <string name="theme_system">System</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+    <string name="first_day">Start counting from</string>
+    <string name="day_zero">Day 0</string>
+    <string name="day_one">Day 1</string>
+    <string name="date_format">Date format</string>
+    <string name="date_format_system">System</string>
+    <string name="date_format_numeric">Numeric</string>
+    <string name="date_format_text">Text</string>
+    <string name="data">Data</string>
+    <string name="export_data">Export</string>
+    <string name="export_description">Save events and settings to a JSON file.</string>
+    <string name="import_data">Import</string>
+    <string name="import_description">Merge events from a JSON file. Matching events are replaced; your settings stay the same.</string>
+    <string name="export_success">Export saved.</string>
+    <string name="export_failed">Could not export the file. Please try again.</string>
+    <string name="import_success">Events imported: %1$d.</string>
+    <string name="import_failed">Could not import the file. Please try again.</string>
+    <string name="import_invalid">This file is not a valid Elapsy export.</string>
+    <string name="document_picker_unavailable">No file picker is available on this device.</string>
+    <string name="app_version">Version %1$s</string>
+
+    <string-array name="color_names">
+        <item>Periwinkle</item>
+        <item>Lavender</item>
+        <item>Rose</item>
+        <item>Peach</item>
+        <item>Apricot</item>
+        <item>Butter yellow</item>
+        <item>Sage</item>
+        <item>Mint</item>
+        <item>Aqua</item>
+        <item>Sky blue</item>
+        <item>Indigo</item>
+        <item>Forest</item>
+    </string-array>
+
+    <string-array name="emoji_presets">
+        <item>🎉</item>
+        <item>🎂</item>
+        <item>❤️</item>
+        <item>💍</item>
+        <item>👶</item>
+        <item>🏠</item>
+        <item>🎓</item>
+        <item>💼</item>
+        <item>🚀</item>
+        <item>🎯</item>
+        <item>⭐</item>
+        <item>🏆</item>
+        <item>🌱</item>
+        <item>🌸</item>
+        <item>🌞</item>
+        <item>🌙</item>
+        <item>🌈</item>
+        <item>🔥</item>
+        <item>✨</item>
+        <item>🎁</item>
+        <item>✈️</item>
+        <item>🏖️</item>
+        <item>🏔️</item>
+        <item>🧳</item>
+        <item>🚗</item>
+        <item>🚲</item>
+        <item>🏃</item>
+        <item>💪</item>
+        <item>🧘</item>
+        <item>📚</item>
+        <item>🎮</item>
+        <item>🎵</item>
+        <item>🎨</item>
+        <item>📷</item>
+        <item>☕</item>
+        <item>🍰</item>
+        <item>🍎</item>
+        <item>🐾</item>
+        <item>🐶</item>
+        <item>🐱</item>
+    </string-array>
+
+    <string-array name="emoji_names">
+        <item>Celebration</item>
+        <item>Birthday</item>
+        <item>Heart</item>
+        <item>Ring</item>
+        <item>Baby</item>
+        <item>Home</item>
+        <item>Graduation</item>
+        <item>Work</item>
+        <item>Rocket</item>
+        <item>Goal</item>
+        <item>Star</item>
+        <item>Trophy</item>
+        <item>Seedling</item>
+        <item>Blossom</item>
+        <item>Sun</item>
+        <item>Moon</item>
+        <item>Rainbow</item>
+        <item>Fire</item>
+        <item>Sparkles</item>
+        <item>Gift</item>
+        <item>Airplane</item>
+        <item>Beach</item>
+        <item>Mountain</item>
+        <item>Suitcase</item>
+        <item>Car</item>
+        <item>Bicycle</item>
+        <item>Running</item>
+        <item>Strength</item>
+        <item>Meditation</item>
+        <item>Books</item>
+        <item>Game</item>
+        <item>Music</item>
+        <item>Art</item>
+        <item>Camera</item>
+        <item>Coffee</item>
+        <item>Cake</item>
+        <item>Apple</item>
+        <item>Paw prints</item>
+        <item>Dog</item>
+        <item>Cat</item>
+    </string-array>
+    <string name="export_file_name">day-counter-%1$s.json</string>
+    <!-- Home screen widget -->
+    <string name="widget_description">Shows the day count of one of your events.</string>
+    <string name="widget_select_event">Select an event</string>
+    <string name="widget_config_title">Select an event</string>
+    <string name="widget_config_empty">Create an event in the app first, then add the widget again.</string>
+    <string name="widget_config_open_app">Open the app</string>
+</resources>

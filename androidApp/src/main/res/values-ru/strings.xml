@@ -1,0 +1,209 @@
+<resources>
+    <string name="app_name">Elapsy</string>
+
+    <plurals name="caption_elapsed">
+        <item quantity="one">день прошёл</item>
+        <item quantity="few">дня прошло</item>
+        <item quantity="many">дней прошло</item>
+        <item quantity="other">дня прошло</item>
+    </plurals>
+    <plurals name="caption_remaining">
+        <item quantity="one">день остался</item>
+        <item quantity="few">дня осталось</item>
+        <item quantity="many">дней осталось</item>
+        <item quantity="other">дня осталось</item>
+    </plurals>
+    <plurals name="caption_ago">
+        <item quantity="one">день назад</item>
+        <item quantity="few">дня назад</item>
+        <item quantity="many">дней назад</item>
+        <item quantity="other">дня назад</item>
+    </plurals>
+    <string name="caption_today">сегодня</string>
+
+    <string name="date_range_until_today">%1$s — сегодня</string>
+
+    <string name="back">Назад</string>
+    <string name="cancel">Отмена</string>
+    <string name="done">Готово</string>
+    <string name="add_event">Добавить событие</string>
+    <string name="sort_events">Сортировка событий</string>
+    <string name="settings">Настройки</string>
+    <string name="empty_title">Здесь будут ваши события</string>
+    <string name="empty_description">Создайте первое событие, чтобы начать отслеживать дни.</string>
+    <string name="create_first_event">Создать первое событие</string>
+    <string name="create_event">Создать событие</string>
+    <string name="edit_event">Редактировать</string>
+    <string name="edit_event_title">Редактирование события</string>
+    <string name="new_event">Новое событие</string>
+    <string name="duplicate_event">Дублировать</string>
+    <string name="delete_event">Удалить событие</string>
+    <string name="delete_event_title">Удалить событие?</string>
+    <string name="delete_event_message">«%1$s» будет удалено без возможности восстановления.</string>
+    <string name="delete">Удалить</string>
+    <string name="move_up">Переместить выше</string>
+    <string name="move_down">Переместить ниже</string>
+    <string name="event_actions">Действия с событием</string>
+    <string name="sort_custom">Пользовательский порядок</string>
+    <string name="sort_newest">Новые сначала</string>
+    <string name="sort_oldest">Старые сначала</string>
+    <string name="sort_name">По названию</string>
+    <string name="sort_days">По количеству дней</string>
+    <string name="sort_nearest">Ближайшие события</string>
+    <string name="event_name">Название</string>
+    <string name="event_name_placeholder">Ваше событие</string>
+    <string name="event_name_example">Например, отпуск</string>
+    <string name="name_length">%1$d / %2$d</string>
+    <string name="count_type">Что показывать</string>
+    <string name="type_elapsed">Дней прошло</string>
+    <string name="type_remaining">Дней осталось</string>
+    <string name="type_ago">Дней назад</string>
+    <string name="start_date">Начальная дата</string>
+    <string name="end_date">Конечная дата</string>
+    <string name="event_date">Дата события</string>
+    <string name="color">Цвет</string>
+    <string name="background">Фон</string>
+    <string name="background_system">Системный</string>
+    <string name="background_solid">Однотонный</string>
+    <string name="background_gradient">Градиент</string>
+    <string name="preview_shape">Форма превью</string>
+    <string name="shape_square">Квадрат</string>
+    <string name="shape_rectangle">Прямоугольник</string>
+    <string name="icon">Эмодзи</string>
+    <string name="no_icon">Без эмодзи</string>
+    <string name="save_changes">Сохранить изменения</string>
+    <string name="save_failed">Не удалось сохранить изменения. Попробуйте ещё раз.</string>
+    <string name="event_description">%1$s, %2$s %3$s, %4$s</string>
+    <string name="event_unavailable">Событие недоступно. Вернуться к событиям</string>
+    <string name="theme">Тема</string>
+    <string name="theme_system">Системная</string>
+    <string name="theme_light">Светлая</string>
+    <string name="theme_dark">Тёмная</string>
+    <string name="first_day">Начинать отсчёт с</string>
+    <string name="day_zero">День 0</string>
+    <string name="day_one">День 1</string>
+    <string name="date_format">Формат даты</string>
+    <string name="date_format_system">Системный</string>
+    <string name="date_format_numeric">Числовой</string>
+    <string name="date_format_text">Текстовый</string>
+    <string name="data">Данные</string>
+    <string name="export_data">Экспорт</string>
+    <string name="export_description">Сохранить события и настройки в JSON-файл.</string>
+    <string name="import_data">Импорт</string>
+    <string name="import_description">Объединить события из JSON-файла. Совпадающие события будут заменены, ваши настройки сохранятся.</string>
+    <string name="export_success">Экспорт сохранён.</string>
+    <string name="export_failed">Не удалось экспортировать файл. Попробуйте ещё раз.</string>
+    <string name="import_success">Импортировано событий: %1$d.</string>
+    <string name="import_failed">Не удалось импортировать файл. Попробуйте ещё раз.</string>
+    <string name="import_invalid">Этот файл не является корректным экспортом Счётчика дней.</string>
+    <string name="document_picker_unavailable">На устройстве недоступен выбор файлов.</string>
+    <string name="app_version">Версия %1$s</string>
+
+    <string-array name="color_names">
+        <item>Барвинковый</item>
+        <item>Лавандовый</item>
+        <item>Розовый</item>
+        <item>Персиковый</item>
+        <item>Абрикосовый</item>
+        <item>Светло-жёлтый</item>
+        <item>Шалфейный</item>
+        <item>Мятный</item>
+        <item>Бирюзовый</item>
+        <item>Небесно-голубой</item>
+        <item>Индиго</item>
+        <item>Лесной</item>
+    </string-array>
+
+    <string-array name="emoji_presets">
+        <item>🎉</item>
+        <item>🎂</item>
+        <item>❤️</item>
+        <item>💍</item>
+        <item>👶</item>
+        <item>🏠</item>
+        <item>🎓</item>
+        <item>💼</item>
+        <item>🚀</item>
+        <item>🎯</item>
+        <item>⭐</item>
+        <item>🏆</item>
+        <item>🌱</item>
+        <item>🌸</item>
+        <item>🌞</item>
+        <item>🌙</item>
+        <item>🌈</item>
+        <item>🔥</item>
+        <item>✨</item>
+        <item>🎁</item>
+        <item>✈️</item>
+        <item>🏖️</item>
+        <item>🏔️</item>
+        <item>🧳</item>
+        <item>🚗</item>
+        <item>🚲</item>
+        <item>🏃</item>
+        <item>💪</item>
+        <item>🧘</item>
+        <item>📚</item>
+        <item>🎮</item>
+        <item>🎵</item>
+        <item>🎨</item>
+        <item>📷</item>
+        <item>☕</item>
+        <item>🍰</item>
+        <item>🍎</item>
+        <item>🐾</item>
+        <item>🐶</item>
+        <item>🐱</item>
+    </string-array>
+
+    <string-array name="emoji_names">
+        <item>Праздник</item>
+        <item>День рождения</item>
+        <item>Сердце</item>
+        <item>Кольцо</item>
+        <item>Ребёнок</item>
+        <item>Дом</item>
+        <item>Выпускной</item>
+        <item>Работа</item>
+        <item>Ракета</item>
+        <item>Цель</item>
+        <item>Звезда</item>
+        <item>Кубок</item>
+        <item>Росток</item>
+        <item>Цветок</item>
+        <item>Солнце</item>
+        <item>Луна</item>
+        <item>Радуга</item>
+        <item>Огонь</item>
+        <item>Искры</item>
+        <item>Подарок</item>
+        <item>Самолёт</item>
+        <item>Пляж</item>
+        <item>Гора</item>
+        <item>Чемодан</item>
+        <item>Машина</item>
+        <item>Велосипед</item>
+        <item>Бег</item>
+        <item>Сила</item>
+        <item>Медитация</item>
+        <item>Книги</item>
+        <item>Игра</item>
+        <item>Музыка</item>
+        <item>Искусство</item>
+        <item>Фотоаппарат</item>
+        <item>Кофе</item>
+        <item>Торт</item>
+        <item>Яблоко</item>
+        <item>Следы лап</item>
+        <item>Собака</item>
+        <item>Кошка</item>
+    </string-array>
+    <string name="export_file_name">day-counter-%1$s.json</string>
+    <!-- Home screen widget -->
+    <string name="widget_description">Показывает счётчик дней одного из ваших событий.</string>
+    <string name="widget_select_event">Выберите событие</string>
+    <string name="widget_config_title">Выберите событие</string>
+    <string name="widget_config_empty">Сначала создайте событие в приложении, затем добавьте виджет снова.</string>
+    <string name="widget_config_open_app">Открыть приложение</string>
+</resources>
