@@ -5,6 +5,8 @@
     android:initialLayout="@layout/glance_default_loading_layout"
     android:minHeight="110dp"
     android:minWidth="110dp"
+    android:previewImage="@drawable/event_widget_preview"
+    android:previewLayout="@layout/event_widget_preview"
     android:resizeMode="horizontal|vertical"
     android:targetCellHeight="2"
     android:targetCellWidth="2"

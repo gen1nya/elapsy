@@ -22,6 +22,7 @@ struct HomeScreen: View {
         .toolbar {
             ToolbarItemGroup(placement: .navigationBarTrailing) {
                 Button(action: onCreate) { Label("add_event", systemImage: "plus") }
+                    .accessibilityIdentifier("home.add")
                 Menu {
                     Picker("sort_events", selection: Binding(
                         get: { store.data.settings.sortMode },
@@ -35,6 +36,7 @@ struct HomeScreen: View {
                     Label("sort_events", systemImage: "arrow.up.arrow.down")
                 }
                 Button(action: onSettings) { Label("settings", systemImage: "gearshape") }
+                    .accessibilityIdentifier("home.settings")
             }
         }
         .deleteEventConfirmation(event: $deletingEvent) { event in
@@ -57,6 +59,7 @@ struct HomeScreen: View {
                     Text("empty_description")
                         .foregroundStyle(.secondary)
                     Button("create_first_event", action: onCreate)
+                        .accessibilityIdentifier("home.createFirst")
                         .buttonStyle(.borderedProminent)
                         .controlSize(.large)
                 }
@@ -69,49 +72,40 @@ struct HomeScreen: View {
     }
 
     private var eventList: some View {
-        let events = store.sortedEvents
-        return ScrollView {
-            LazyVStack(spacing: 16) {
-                ForEach(Array(events.enumerated()), id: \.element.id) { index, event in
-                    Button { onEdit(event.id) } label: {
-                        EventCardSurface(snapshot: store.snapshot(of: event))
-                            .frame(height: 158)
-                    }
-                    .buttonStyle(.plain)
-                    .contextMenu {
-                        Button { onEdit(event.id) } label: {
-                            Label("edit_event", systemImage: "pencil")
-                        }
-                        Button { _ = store.repository.duplicate(id: event.id) } label: {
-                            Label("duplicate_event", systemImage: "plus.square.on.square")
-                        }
-                        if store.data.settings.sortMode == .custom {
-                            Button { move(event.id, offset: -1) } label: {
-                                Label("move_up", systemImage: "arrow.up")
-                            }
-                            .disabled(index == 0)
-                            Button { move(event.id, offset: 1) } label: {
-                                Label("move_down", systemImage: "arrow.down")
-                            }
-                            .disabled(index == events.count - 1)
-                        }
-                        Button(role: .destructive) { deletingEvent = event } label: {
-                            Label("delete_event", systemImage: "trash")
-                        }
-                    }
+        let customOrder = store.data.settings.sortMode == .custom
+        // A List rather than a stack of cards, because it brings long-press drag reordering.
+        return List {
+            ForEach(store.sortedEvents, id: \.id) { event in
+                Button { onEdit(event.id) } label: {
+                    EventCardSurface(snapshot: store.snapshot(of: event))
+                        .frame(height: 158)
                 }
+                .buttonStyle(.plain)
+                .accessibilityIdentifier("event.\(event.name)")
+                // Swipe actions rather than a context menu: a long press is reserved for dragging.
+                .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                    Button { deletingEvent = event } label: {
+                        Label("delete", systemImage: "trash")
+                    }
+                    .tint(.red)
+                    Button { _ = store.repository.duplicate(id: event.id) } label: {
+                        Label("duplicate_event", systemImage: "plus.square.on.square")
+                    }
+                    .tint(.indigo)
+                }
+                .listRowSeparator(.hidden)
+                .listRowBackground(Color.clear)
+                .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
             }
-            .padding(16)
-            .frame(maxWidth: 640)
-            .frame(maxWidth: .infinity)
+            .onMove(perform: customOrder ? move : nil)
         }
+        .listStyle(.plain)
+        .scrollContentBackground(.hidden)
     }
 
-    private func move(_ id: String, offset: Int) {
+    private func move(from source: IndexSet, to destination: Int) {
         var ids = store.sortedEvents.map(\.id)
-        guard store.data.settings.sortMode == .custom,
-              let index = ids.firstIndex(of: id), ids.indices.contains(index + offset) else { return }
-        ids.swapAt(index, index + offset)
+        ids.move(fromOffsets: source, toOffset: destination)
         store.repository.reorder(orderedIds: ids)
     }
 }

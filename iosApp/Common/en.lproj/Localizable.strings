@@ -20,7 +20,6 @@
 "empty_title" = "Your events will appear here";
 "empty_description" = "Create your first event to start counting the days.";
 "create_first_event" = "Create your first event";
-"create_event" = "Create event";
 "edit_event" = "Edit";
 "edit_event_title" = "Edit event";
 "new_event" = "New event";
@@ -29,8 +28,6 @@
 "delete_event_title" = "Delete event?";
 "delete_event_message" = "“%1$@” will be permanently deleted.";
 "delete" = "Delete";
-"move_up" = "Move up";
-"move_down" = "Move down";
 "event_actions" = "Event actions";
 "sort_custom" = "Custom order";
 "sort_newest" = "Newest first";
@@ -59,7 +56,6 @@
 "shape_rectangle" = "Rectangle";
 "icon" = "Emoji";
 "no_icon" = "None";
-"save_changes" = "Save changes";
 "save_failed" = "Could not save changes. Please try again.";
 "event_description" = "%1$@, %2$@ %3$@, %4$@";
 "event_unavailable" = "Event unavailable. Return to events";
@@ -179,3 +175,9 @@
 "emoji_name_37" = "Paw prints";
 "emoji_name_38" = "Dog";
 "emoji_name_39" = "Cat";
+/* Editor navigation bar and leaving with unsaved changes. */
+"save" = "Save";
+"create" = "Create";
+"discard_changes_title" = "Discard changes?";
+"discard" = "Discard";
+"keep_editing" = "Keep Editing";

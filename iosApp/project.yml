@@ -9,7 +9,7 @@ settings:
   base:
     SWIFT_VERSION: "5.0"
     MARKETING_VERSION: "1.0.0"
-    CURRENT_PROJECT_VERSION: "2"
+    CURRENT_PROJECT_VERSION: "4"
     TARGETED_DEVICE_FAMILY: "1"
     DEVELOPMENT_TEAM: S8PRHP388M
     CODE_SIGN_STYLE: Automatic
@@ -23,6 +23,20 @@ settings:
       KOTLIN_FRAMEWORK_BUILD_TYPE: debug
     Release:
       KOTLIN_FRAMEWORK_BUILD_TYPE: release
+
+schemes:
+  Elapsy:
+    build:
+      targets:
+        Elapsy: all
+    run:
+      config: Debug
+    test:
+      config: Debug
+      targets:
+        - ElapsyUITests
+    archive:
+      config: Release
 
 aggregateTargets:
   SharedFramework:
@@ -133,3 +147,18 @@ targets:
       path: Intents/ElapsyIntents.entitlements
       properties:
         com.apple.security.application-groups: [group.app.elapsy]
+
+  ElapsyUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources:
+      - UITests
+    dependencies:
+      - target: Elapsy
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: app.elapsy.uitests
+        TARGETED_DEVICE_FAMILY: "1"
+        GENERATE_INFOPLIST_FILE: "YES"
+        # The tests drive the app from outside and do not use the Kotlin framework.
+        OTHER_LDFLAGS: ""

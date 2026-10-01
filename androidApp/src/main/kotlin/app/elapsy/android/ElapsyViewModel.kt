@@ -58,14 +58,8 @@ internal class ElapsyViewModel(private val repository: EventRepository) : ViewMo
         repository.duplicate(id)
     }
 
-    fun move(id: String, offset: Int) = perform {
-        val ids = repository.data.value.events.sortedBy { it.sortOrder }.map { it.id }.toMutableList()
-        val index = ids.indexOf(id)
-        val destination = index + offset
-        if (index in ids.indices && destination in ids.indices) {
-            ids.add(destination, ids.removeAt(index))
-            repository.reorder(ids)
-        }
+    fun reorder(orderedIds: List<String>) = perform {
+        repository.reorder(orderedIds)
     }
 
     fun updateSettings(transform: (Settings) -> Settings) = perform {

@@ -28,7 +28,6 @@
     <string name="empty_title">Your events will appear here</string>
     <string name="empty_description">Create your first event to start counting the days.</string>
     <string name="create_first_event">Create your first event</string>
-    <string name="create_event">Create event</string>
     <string name="edit_event">Edit</string>
     <string name="edit_event_title">Edit event</string>
     <string name="new_event">New event</string>
@@ -37,8 +36,6 @@
     <string name="delete_event_title">Delete event?</string>
     <string name="delete_event_message">“%1$s” will be permanently deleted.</string>
     <string name="delete">Delete</string>
-    <string name="move_up">Move up</string>
-    <string name="move_down">Move down</string>
     <string name="event_actions">Event actions</string>
     <string name="sort_custom">Custom order</string>
     <string name="sort_newest">Newest first</string>
@@ -67,7 +64,6 @@
     <string name="shape_rectangle">Rectangle</string>
     <string name="icon">Emoji</string>
     <string name="no_icon">None</string>
-    <string name="save_changes">Save changes</string>
     <string name="save_failed">Could not save changes. Please try again.</string>
     <string name="event_description">%1$s, %2$s %3$s, %4$s</string>
     <string name="event_unavailable">Event unavailable. Return to events</string>
@@ -196,8 +192,21 @@
         <item>Cat</item>
     </string-array>
     <string name="export_file_name">day-counter-%1$s.json</string>
+    <!-- Editor top bar and leaving with unsaved changes -->
+    <string name="save">Save</string>
+    <string name="create">Create</string>
+    <string name="close">Close</string>
+    <string name="discard_changes_title">Discard changes?</string>
+    <string name="discard_changes_message">Your changes will be lost.</string>
+    <string name="discard">Discard</string>
+    <string name="keep_editing">Keep editing</string>
+
     <!-- Home screen widget -->
     <string name="widget_description">Shows the day count of one of your events.</string>
+    <string name="widget_preview_icon">🏝️</string>
+    <string name="widget_preview_number">61</string>
+    <string name="widget_preview_caption">days left</string>
+    <string name="widget_preview_name">Vacation</string>
     <string name="widget_select_event">Select an event</string>
     <string name="widget_config_title">Select an event</string>
     <string name="widget_config_empty">Create an event in the app first, then add the widget again.</string>

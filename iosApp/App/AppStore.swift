@@ -11,9 +11,16 @@ final class AppStore: ObservableObject {
     private var subscription: Subscription?
 
     init() {
-        repository = IosBridgeKt.createRepository(appGroupId: AppGroup.id) {
+        let repository = IosBridgeKt.createRepository(appGroupId: AppGroup.id) {
             WidgetCenter.shared.reloadAllTimelines()
         }
+        #if DEBUG
+        // UI tests start every run from an empty app.
+        if ProcessInfo.processInfo.arguments.contains("-resetData") {
+            (repository.data.value as? AppData)?.events.forEach { repository.delete(id: $0.id) }
+        }
+        #endif
+        self.repository = repository
         data = repository.data.value as? AppData ?? AppData(schemaVersion: 1, settings: Settings(firstDay: .day0, theme: .system, dateFormat: .system, sortMode: .custom), events: [])
         subscription = repository.observe { [weak self] data in
             self?.data = data

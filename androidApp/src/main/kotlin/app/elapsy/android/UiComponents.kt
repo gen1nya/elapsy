@@ -50,6 +50,38 @@ internal fun BackTopBar(title: String, onBack: () -> Unit) {
     )
 }
 
+/** Top bar of a screen that edits something: closing and saving are both explicit and always visible. */
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+internal fun EditorTopBar(title: String, saveLabel: String, saveEnabled: Boolean, onClose: () -> Unit, onSave: () -> Unit) {
+    TopAppBar(
+        title = { Text(title, style = MaterialTheme.typography.titleLarge) },
+        navigationIcon = {
+            IconButton(onClick = onClose) { AppIcon(R.drawable.ic_close, stringResource(R.string.close)) }
+        },
+        actions = {
+            TextButton(onClick = onSave, enabled = saveEnabled) { Text(saveLabel) }
+        },
+    )
+}
+
+@Composable
+internal fun DiscardChangesDialog(onDismiss: () -> Unit, onDiscard: () -> Unit) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(stringResource(R.string.discard_changes_title)) },
+        text = { Text(stringResource(R.string.discard_changes_message)) },
+        confirmButton = {
+            TextButton(onClick = onDiscard) {
+                Text(stringResource(R.string.discard), color = MaterialTheme.colorScheme.error)
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) { Text(stringResource(R.string.keep_editing)) }
+        },
+    )
+}
+
 @Composable
 internal fun DeleteEventDialog(name: String, enabled: Boolean, onDismiss: () -> Unit, onDelete: () -> Unit) {
     AlertDialog(

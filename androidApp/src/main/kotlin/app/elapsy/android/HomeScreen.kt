@@ -1,17 +1,12 @@
 package app.elapsy.android
 
-import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -35,15 +30,12 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.selected
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import app.elapsy.core.AppData
-import app.elapsy.core.Event
 import app.elapsy.core.SortMode
 import app.elapsy.core.sorted
 import kotlinx.datetime.LocalDate
@@ -61,7 +53,7 @@ internal fun HomeScreen(
     onSort: (SortMode) -> Unit,
     onDuplicate: (String) -> Unit,
     onDelete: (String) -> Unit,
-    onMove: (String, Int) -> Unit,
+    onReorder: (List<String>) -> Unit,
 ) {
     var sorting by rememberSaveable { mutableStateOf(false) }
     var deletingId by rememberSaveable { mutableStateOf<String?>(null) }
@@ -102,26 +94,16 @@ internal fun HomeScreen(
             if (events.isEmpty()) {
                 EmptyEvents(onCreate, Modifier.align(Alignment.Center))
             } else {
-                LazyColumn(
-                    modifier = Modifier.widthIn(max = 640.dp).fillMaxSize(),
-                    contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 12.dp, bottom = 24.dp),
-                    verticalArrangement = Arrangement.spacedBy(16.dp),
-                ) {
-                    itemsIndexed(events, key = { _, event -> event.id }) { index, event ->
-                        HomeEventCard(
-                            event = event,
-                            data = data,
-                            today = today,
-                            busy = busy,
-                            canMoveUp = index > 0,
-                            canMoveDown = index < events.lastIndex,
-                            onEdit = { onEdit(event.id) },
-                            onDuplicate = { onDuplicate(event.id) },
-                            onDelete = { deletingId = event.id },
-                            onMove = { onMove(event.id, it) },
-                        )
-                    }
-                }
+                HomeEventList(
+                    events = events,
+                    data = data,
+                    today = today,
+                    busy = busy,
+                    onEdit = onEdit,
+                    onDuplicate = onDuplicate,
+                    onDelete = { deletingId = it },
+                    onReorder = onReorder,
+                )
             }
         }
     }
@@ -156,59 +138,5 @@ private fun EmptyEvents(onCreate: () -> Unit, modifier: Modifier = Modifier) {
             textAlign = TextAlign.Center,
         )
         Button(onClick = onCreate) { Text(stringResource(R.string.create_first_event)) }
-    }
-}
-
-@Composable
-private fun HomeEventCard(
-    event: Event,
-    data: AppData,
-    today: LocalDate,
-    busy: Boolean,
-    canMoveUp: Boolean,
-    canMoveDown: Boolean,
-    onEdit: () -> Unit,
-    onDuplicate: () -> Unit,
-    onDelete: () -> Unit,
-    onMove: (Int) -> Unit,
-) {
-    var actions by rememberSaveable { mutableStateOf(false) }
-    Box {
-        Box(
-            Modifier.clip(RoundedCornerShape(28.dp)).combinedClickable(
-                role = Role.Button,
-                onClickLabel = stringResource(R.string.edit_event),
-                onLongClickLabel = stringResource(R.string.event_actions),
-                onClick = onEdit,
-                onLongClick = { actions = true },
-            )
-        ) {
-            EventPreview(event, data.settings, today, Modifier.fillMaxWidth())
-        }
-        DropdownMenu(expanded = actions, onDismissRequest = { actions = false }) {
-            DropdownMenuItem(text = { Text(stringResource(R.string.edit_event)) }, onClick = { actions = false; onEdit() })
-            DropdownMenuItem(
-                text = { Text(stringResource(R.string.duplicate_event)) },
-                enabled = !busy,
-                onClick = { actions = false; onDuplicate() },
-            )
-            if (data.settings.sortMode == SortMode.CUSTOM) {
-                DropdownMenuItem(
-                    text = { Text(stringResource(R.string.move_up)) },
-                    enabled = canMoveUp && !busy,
-                    onClick = { actions = false; onMove(-1) },
-                )
-                DropdownMenuItem(
-                    text = { Text(stringResource(R.string.move_down)) },
-                    enabled = canMoveDown && !busy,
-                    onClick = { actions = false; onMove(1) },
-                )
-            }
-            DropdownMenuItem(
-                text = { Text(stringResource(R.string.delete_event), color = MaterialTheme.colorScheme.error) },
-                enabled = !busy,
-                onClick = { actions = false; onDelete() },
-            )
-        }
     }
 }

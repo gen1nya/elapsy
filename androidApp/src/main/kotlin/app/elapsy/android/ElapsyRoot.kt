@@ -56,7 +56,7 @@ internal fun ElapsyRoot(model: ElapsyViewModel, data: AppData) {
                 onSort = { mode -> model.updateSettings { it.copy(sortMode = mode) } },
                 onDuplicate = model::duplicate,
                 onDelete = { model.delete(it) },
-                onMove = model::move,
+                onReorder = model::reorder,
             )
         }
         composable("create") {

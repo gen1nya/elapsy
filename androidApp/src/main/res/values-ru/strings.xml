@@ -32,7 +32,6 @@
     <string name="empty_title">Здесь будут ваши события</string>
     <string name="empty_description">Создайте первое событие, чтобы начать отслеживать дни.</string>
     <string name="create_first_event">Создать первое событие</string>
-    <string name="create_event">Создать событие</string>
     <string name="edit_event">Редактировать</string>
     <string name="edit_event_title">Редактирование события</string>
     <string name="new_event">Новое событие</string>
@@ -41,8 +40,6 @@
     <string name="delete_event_title">Удалить событие?</string>
     <string name="delete_event_message">«%1$s» будет удалено без возможности восстановления.</string>
     <string name="delete">Удалить</string>
-    <string name="move_up">Переместить выше</string>
-    <string name="move_down">Переместить ниже</string>
     <string name="event_actions">Действия с событием</string>
     <string name="sort_custom">Пользовательский порядок</string>
     <string name="sort_newest">Новые сначала</string>
@@ -71,7 +68,6 @@
     <string name="shape_rectangle">Прямоугольник</string>
     <string name="icon">Эмодзи</string>
     <string name="no_icon">Без эмодзи</string>
-    <string name="save_changes">Сохранить изменения</string>
     <string name="save_failed">Не удалось сохранить изменения. Попробуйте ещё раз.</string>
     <string name="event_description">%1$s, %2$s %3$s, %4$s</string>
     <string name="event_unavailable">Событие недоступно. Вернуться к событиям</string>
@@ -200,8 +196,21 @@
         <item>Кошка</item>
     </string-array>
     <string name="export_file_name">day-counter-%1$s.json</string>
+    <!-- Editor top bar and leaving with unsaved changes -->
+    <string name="save">Сохранить</string>
+    <string name="create">Создать</string>
+    <string name="close">Закрыть</string>
+    <string name="discard_changes_title">Не сохранять изменения?</string>
+    <string name="discard_changes_message">Внесённые изменения будут потеряны.</string>
+    <string name="discard">Не сохранять</string>
+    <string name="keep_editing">Продолжить</string>
+
     <!-- Home screen widget -->
     <string name="widget_description">Показывает счётчик дней одного из ваших событий.</string>
+    <string name="widget_preview_icon">🏝️</string>
+    <string name="widget_preview_number">61</string>
+    <string name="widget_preview_caption">день остался</string>
+    <string name="widget_preview_name">Отпуск</string>
     <string name="widget_select_event">Выберите событие</string>
     <string name="widget_config_title">Выберите событие</string>
     <string name="widget_config_empty">Сначала создайте событие в приложении, затем добавьте виджет снова.</string>

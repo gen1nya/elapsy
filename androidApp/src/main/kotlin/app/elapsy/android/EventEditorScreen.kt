@@ -1,5 +1,6 @@
 package app.elapsy.android
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -18,7 +19,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
@@ -32,6 +32,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -76,12 +77,30 @@ internal fun EventEditorScreen(
         colorArgb = color, background = background, icon = icon,
         createdAtEpochMs = event?.createdAtEpochMs ?: 0L, sortOrder = event?.sortOrder ?: 0,
     )
+    val initial = remember(event) {
+        event ?: Event(
+            id = "", name = "", type = CountType.ELAPSED, date = today,
+            colorArgb = eventPalette.first(), background = BackgroundStyle.SOLID, icon = null,
+            createdAtEpochMs = 0L, sortOrder = 0,
+        )
+    }
+    val hasChanges = draft.copy(name = name.trim()) != initial
+    var discarding by rememberSaveable { mutableStateOf(false) }
+    // Leaving with unsaved edits must be a deliberate choice, whichever way the user leaves.
+    val close = { if (hasChanges) discarding = true else onBack() }
+    BackHandler(enabled = hasChanges) { discarding = true }
     val resources = LocalResources.current
     val focus = LocalFocusManager.current
     Scaffold(
         modifier = Modifier.imePadding(),
         topBar = {
-            BackTopBar(stringResource(if (event == null) R.string.new_event else R.string.edit_event_title), onBack)
+            EditorTopBar(
+                title = stringResource(if (event == null) R.string.new_event else R.string.edit_event_title),
+                saveLabel = stringResource(if (event == null) R.string.create else R.string.save),
+                saveEnabled = name.isNotBlank() && hasChanges && !busy,
+                onClose = close,
+                onSave = { focus.clearFocus(); onSave(draft) },
+            )
         },
         snackbarHost = { SnackbarHost(snackbar) },
     ) { insets ->
@@ -156,13 +175,6 @@ internal fun EventEditorScreen(
                         trailingContent = { AppIcon(R.drawable.ic_expand) },
                         modifier = Modifier.clickable(role = Role.Button) { focus.clearFocus(); emojiPicker = true },
                     )
-                    Button(
-                        onClick = { focus.clearFocus(); onSave(draft) },
-                        enabled = name.isNotBlank() && !busy,
-                        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp).height(56.dp),
-                    ) {
-                        Text(stringResource(if (event == null) R.string.create_event else R.string.save_changes))
-                    }
                     if (event != null) {
                         TextButton(
                             onClick = { deleting = true }, enabled = !busy,
@@ -176,6 +188,9 @@ internal fun EventEditorScreen(
     }
     if (datePicker) EventDatePicker(date, { dateText = it.toString() }, { datePicker = false })
     if (emojiPicker) EmojiPicker(icon, { icon = it }, { emojiPicker = false })
+    if (discarding) {
+        DiscardChangesDialog(onDismiss = { discarding = false }, onDiscard = { discarding = false; onBack() })
+    }
     if (deleting) {
         DeleteEventDialog(
             name = event?.name.orEmpty(), enabled = !busy, onDismiss = { deleting = false },

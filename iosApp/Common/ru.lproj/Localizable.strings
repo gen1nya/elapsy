@@ -20,17 +20,14 @@
 "empty_title" = "Здесь будут ваши события";
 "empty_description" = "Создайте первое событие, чтобы начать отслеживать дни.";
 "create_first_event" = "Создать первое событие";
-"create_event" = "Создать событие";
 "edit_event" = "Редактировать";
-"edit_event_title" = "Редактирование события";
+"edit_event_title" = "Событие";
 "new_event" = "Новое событие";
 "duplicate_event" = "Дублировать";
 "delete_event" = "Удалить событие";
 "delete_event_title" = "Удалить событие?";
 "delete_event_message" = "«%1$@» будет удалено без возможности восстановления.";
 "delete" = "Удалить";
-"move_up" = "Переместить выше";
-"move_down" = "Переместить ниже";
 "event_actions" = "Действия с событием";
 "sort_custom" = "Пользовательский порядок";
 "sort_newest" = "Новые сначала";
@@ -59,7 +56,6 @@
 "shape_rectangle" = "Прямоугольник";
 "icon" = "Эмодзи";
 "no_icon" = "Без эмодзи";
-"save_changes" = "Сохранить изменения";
 "save_failed" = "Не удалось сохранить изменения. Попробуйте ещё раз.";
 "event_description" = "%1$@, %2$@ %3$@, %4$@";
 "event_unavailable" = "Событие недоступно. Вернуться к событиям";
@@ -179,3 +175,9 @@
 "emoji_name_37" = "Следы лап";
 "emoji_name_38" = "Собака";
 "emoji_name_39" = "Кошка";
+/* Editor navigation bar and leaving with unsaved changes. */
+"save" = "Сохранить";
+"create" = "Создать";
+"discard_changes_title" = "Не сохранять изменения?";
+"discard" = "Не сохранять";
+"keep_editing" = "Продолжить редактирование";

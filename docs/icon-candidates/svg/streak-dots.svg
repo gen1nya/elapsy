@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6F82E0"/><stop offset="1" stop-color="#3A4690"/></linearGradient></defs>
+  <rect width="1024" height="1024" fill="url(#g)"/>
+  <circle cx="242" cy="242" r="58" fill="#FFFFFF"/>
+  <circle cx="422" cy="242" r="58" fill="#FFFFFF"/>
+  <circle cx="602" cy="242" r="58" fill="#FFFFFF"/>
+  <circle cx="782" cy="242" r="58" fill="#FFFFFF"/>
+  <circle cx="242" cy="422" r="58" fill="#FFFFFF"/>
+  <circle cx="422" cy="422" r="58" fill="#FFFFFF"/>
+  <circle cx="602" cy="422" r="58" fill="#FFFFFF"/>
+  <circle cx="782" cy="422" r="58" fill="#FFFFFF"/>
+  <circle cx="242" cy="602" r="58" fill="#FFFFFF"/>
+  <circle cx="422" cy="602" r="66" fill="#FFC48A"/>
+  <circle cx="602" cy="602" r="58" fill="#FFFFFF" fill-opacity="0.22"/>
+  <circle cx="782" cy="602" r="58" fill="#FFFFFF" fill-opacity="0.22"/>
+  <circle cx="242" cy="782" r="58" fill="#FFFFFF" fill-opacity="0.22"/>
+  <circle cx="422" cy="782" r="58" fill="#FFFFFF" fill-opacity="0.22"/>
+  <circle cx="602" cy="782" r="58" fill="#FFFFFF" fill-opacity="0.22"/>
+  <circle cx="782" cy="782" r="58" fill="#FFFFFF" fill-opacity="0.22"/>
+</svg>

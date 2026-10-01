@@ -14,12 +14,20 @@ struct EventEditorScreen: View {
     @State private var shape: EventCardView.Shape = .rectangle
     @State private var showingEmojiPicker = false
     @State private var deletingEvent: Event?
+    @State private var confirmingDiscard = false
 
     let event: Event?
+    /// What the form started from; any difference from it counts as unsaved changes.
+    private let original: Event
     private let maxNameLength = Int(Event.companion.MAX_NAME_LENGTH)
 
     init(event: Event?, today: LocalDate) {
         self.event = event
+        original = event ?? Event(
+            id: "", name: "", type: .elapsed, date: today,
+            colorArgb: EventPalette.colors[0], background: .solid, icon: nil,
+            createdAtEpochMs: 0, sortOrder: 0
+        )
         _name = State(initialValue: event?.name ?? "")
         _type = State(initialValue: event?.type ?? .elapsed)
         _date = State(initialValue: (event?.date ?? today).date)
@@ -86,23 +94,15 @@ struct EventEditorScreen: View {
                     }
                     .buttonStyle(.plain)
                 }
-                Section {
-                    Button(action: save) {
-                        Text(event == nil ? LocalizedStringKey("create_event") : LocalizedStringKey("save_changes"))
-                            .frame(maxWidth: .infinity, minHeight: 32)
-                    }
-                    .buttonStyle(.borderedProminent)
-                    .controlSize(.large)
-                    .disabled(trimmedName.isEmpty)
-                    .listRowBackground(Color.clear)
-                    .listRowInsets(EdgeInsets())
-                    if let event {
+                if let event {
+                    Section {
                         Button("delete_event", role: .destructive) {
                             nameFocused = false
                             deletingEvent = event
                         }
                         .frame(maxWidth: .infinity, minHeight: 44)
                         .listRowBackground(Color.clear)
+                        .accessibilityIdentifier("editor.delete")
                     }
                 }
             }
@@ -111,7 +111,24 @@ struct EventEditorScreen: View {
         .background(Color(uiColor: .systemGroupedBackground))
         .navigationTitle(event == nil ? LocalizedStringKey("new_event") : LocalizedStringKey("edit_event_title"))
         .navigationBarTitleDisplayMode(.inline)
+        // An untouched form closes with a swipe; once something changed, the swipe is refused
+        // and asks the same question as Cancel.
+        .sheetDismissGuard(isBlocked: hasChanges) { confirmingDiscard = true }
         .toolbar {
+            ToolbarItem(placement: .cancellationAction) {
+                Button("cancel", action: close)
+                    .accessibilityIdentifier("editor.cancel")
+                    // Attached here so the question appears next to the button that leaves.
+                    .confirmationDialog("discard_changes_title", isPresented: $confirmingDiscard, titleVisibility: .visible) {
+                        Button("discard", role: .destructive) { dismiss() }
+                        Button("keep_editing", role: .cancel) {}
+                    }
+            }
+            ToolbarItem(placement: .confirmationAction) {
+                Button(event == nil ? LocalizedStringKey("create") : LocalizedStringKey("save"), action: save)
+                    .disabled(trimmedName.isEmpty || !hasChanges)
+                    .accessibilityIdentifier("editor.save")
+            }
             ToolbarItemGroup(placement: .keyboard) {
                 Spacer()
                 Button("done") { nameFocused = false }
@@ -130,6 +147,7 @@ struct EventEditorScreen: View {
         Section {
             TextField("event_name_example", text: $name)
                 .accessibilityLabel(Text("event_name"))
+                .accessibilityIdentifier("editor.name")
                 .textInputAutocapitalization(.sentences)
                 .submitLabel(.done)
                 .focused($nameFocused)
@@ -168,6 +186,13 @@ struct EventEditorScreen: View {
         var snapshot = store.snapshot(of: draft)
         if trimmedName.isEmpty { snapshot.name = NSLocalizedString("event_name_placeholder", comment: "") }
         return snapshot
+    }
+
+    private var hasChanges: Bool { draft != original }
+
+    private func close() {
+        nameFocused = false
+        if hasChanges { confirmingDiscard = true } else { dismiss() }
     }
 
     private func save() {
