@@ -21,3 +21,5 @@ node_modules/
 iosApp/*.xcodeproj
 iosApp/**/Info.plist
 iosApp/**/*.entitlements
+# Address of the build Mac, see scripts/mac.sh
+scripts/mac.local

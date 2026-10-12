@@ -1,0 +1,63 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  android:
+    name: Core tests and Android builds
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+      - uses: gradle/actions/setup-gradle@v4
+      # The release build runs R8; without the upload key it is simply left unsigned.
+      - run: ./gradlew :core:jvmTest :androidApp:assembleDebug :androidApp:assembleRelease --console=plain
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: core-test-results
+          path: core/build/test-results/
+          if-no-files-found: ignore
+
+  ios:
+    name: iOS build and UI tests
+    runs-on: macos-26
+    steps:
+      - uses: actions/checkout@v4
+      - uses: gradle/actions/setup-gradle@v4
+      # The Kotlin/Native toolchain is a large download; keep it between runs.
+      - uses: actions/cache@v4
+        with:
+          path: ~/.konan
+          key: konan-${{ runner.os }}-${{ hashFiles('gradle/libs.versions.toml') }}
+      - run: brew install xcodegen
+      - run: xcodegen generate
+        working-directory: iosApp
+      - name: Build and run UI tests on the simulator
+        working-directory: iosApp
+        run: |
+          xcodebuild test -project Elapsy.xcodeproj -scheme Elapsy \
+            -destination "platform=iOS Simulator,name=iPhone 17" \
+            -derivedDataPath build/DerivedData \
+            -resultBundlePath build/UITests.xcresult \
+            -collect-test-diagnostics never \
+            CODE_SIGNING_ALLOWED=NO \
+            | tee build/test.log | grep -E "error:|Test Case .*(passed|failed)|Executed [0-9]+ tests|\*\* (TEST|BUILD)"
+          test "${PIPESTATUS[0]}" -eq 0
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: ios-test-results
+          path: |
+            iosApp/build/UITests.xcresult
+            iosApp/build/test.log

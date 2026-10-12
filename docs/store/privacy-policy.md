@@ -1,3 +1,7 @@
+---
+title: Elapsy — Privacy Policy
+---
+
 # Elapsy — Privacy Policy
 
 _Last updated: 2 October 2026_

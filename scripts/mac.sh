@@ -2,12 +2,13 @@
 # Syncs the project to the build Mac and runs a command there, in the project directory.
 #   scripts/mac.sh                      # sync only
 #   scripts/mac.sh ./gradlew :core:tasks
-# The Mac's address comes from DHCP; override with MAC_HOST when it changes.
+# The Mac's user@host lives in scripts/mac.local (not committed), or in MAC_HOST.
 set -euo pipefail
 
-MAC_HOST="${MAC_HOST:-evgenijandrianov@192.168.129.190}"
-REMOTE_DIR="${MAC_REMOTE_DIR:-elapsy}"
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+[ -f "$ROOT/scripts/mac.local" ] && . "$ROOT/scripts/mac.local"
+: "${MAC_HOST:?set MAC_HOST=user@host, or put MAC_HOST=user@host into scripts/mac.local}"
+REMOTE_DIR="${MAC_REMOTE_DIR:-elapsy}"
 
 rsync -az --delete \
   --exclude '.git/' --exclude '.gradle/' --exclude '.kotlin/' --exclude '.idea/' \

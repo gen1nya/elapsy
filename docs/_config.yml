@@ -1,0 +1,6 @@
+title: Elapsy
+description: A day counter with home screen widgets for iOS and Android
+theme: jekyll-theme-minimal
+exclude:
+  - icon-candidates
+  - screenshots
