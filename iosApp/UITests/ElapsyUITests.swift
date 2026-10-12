@@ -124,7 +124,9 @@ final class ElapsyUITests: XCTestCase {
         createEvent("Second")
         XCTAssertLessThan(card("First").frame.minY, card("Second").frame.minY)
 
-        drag(card("First"), to: card("Second").coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.7)))
+        // Upwards, away from where the card's menu would appear if the press lasted long enough
+        // to open it on a slow machine.
+        drag(card("Second"), to: card("First").coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.2)))
 
         XCTAssertTrue(waitForOrder(first: "Second", second: "First"))
     }
