@@ -72,40 +72,15 @@ struct HomeScreen: View {
     }
 
     private var eventList: some View {
-        let customOrder = store.data.settings.sortMode == .custom
-        // A List rather than a stack of cards, because it brings long-press drag reordering.
-        return List {
-            ForEach(store.sortedEvents, id: \.id) { event in
-                Button { onEdit(event.id) } label: {
-                    EventCardSurface(snapshot: store.snapshot(of: event))
-                        .frame(height: 158)
-                }
-                .buttonStyle(.plain)
-                .accessibilityIdentifier("event.\(event.name)")
-                // Swipe actions rather than a context menu: a long press is reserved for dragging.
-                .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-                    Button { deletingEvent = event } label: {
-                        Label("delete", systemImage: "trash")
-                    }
-                    .tint(.red)
-                    Button { _ = store.repository.duplicate(id: event.id) } label: {
-                        Label("duplicate_event", systemImage: "plus.square.on.square")
-                    }
-                    .tint(.indigo)
-                }
-                .listRowSeparator(.hidden)
-                .listRowBackground(Color.clear)
-                .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
-            }
-            .onMove(perform: customOrder ? move : nil)
-        }
-        .listStyle(.plain)
-        .scrollContentBackground(.hidden)
-    }
-
-    private func move(from source: IndexSet, to destination: Int) {
-        var ids = store.sortedEvents.map(\.id)
-        ids.move(fromOffsets: source, toOffset: destination)
-        store.repository.reorder(orderedIds: ids)
+        EventCollectionView(
+            items: store.sortedEvents.map { .init(id: $0.id, name: $0.name, snapshot: store.snapshot(of: $0)) },
+            canReorder: store.data.settings.sortMode == .custom,
+            onOpen: onEdit,
+            onDuplicate: { _ = store.repository.duplicate(id: $0) },
+            onDelete: { id in deletingEvent = store.data.events.first { $0.id == id } },
+            onReorder: { store.repository.reorder(orderedIds: $0) }
+        )
+        // The list runs under the bars so the large title collapses while it scrolls.
+        .ignoresSafeArea()
     }
 }

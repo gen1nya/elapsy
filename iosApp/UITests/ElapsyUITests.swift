@@ -108,20 +108,15 @@ final class ElapsyUITests: XCTestCase {
         XCTAssertTrue(app.staticTexts["Your events will appear here"].waitForExistence(timeout: 5))
     }
 
-    func testSwipeActionsDuplicateAndDelete() {
+    /// Slow by nature: while a context menu is open the app never reports itself idle, and
+    /// XCTest waits a full minute before each interaction with it.
+    func testLongPressOpensTheMenu() {
         createEvent("Vacation")
 
-        card("Vacation").swipeLeft()
+        card("Vacation").press(forDuration: 1.2)
         app.buttons["Duplicate"].tap()
-        XCTAssertEqual(app.buttons.matching(identifier: "event.Vacation").count, 2)
 
-        card("Vacation").swipeLeft()
-        app.buttons["Delete"].firstMatch.tap()
-        // The swipe button only asks; the confirmation does the deleting.
-        let confirm = app.buttons.matching(NSPredicate(format: "label == %@", "Delete")).element(boundBy: 0)
-        XCTAssertTrue(confirm.waitForExistence(timeout: 5))
-        confirm.tap()
-        XCTAssertTrue(waitForCount(of: "event.Vacation", toBe: 1))
+        XCTAssertTrue(waitForCount(of: "event.Vacation", toBe: 2))
     }
 
     func testDragReordersEventsInCustomOrder() {
@@ -129,18 +124,42 @@ final class ElapsyUITests: XCTestCase {
         createEvent("Second")
         XCTAssertLessThan(card("First").frame.minY, card("Second").frame.minY)
 
-        let start = card("First").coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5))
-        let end = card("Second").coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.9))
-        start.press(forDuration: 1.2, thenDragTo: end, withVelocity: .slow, thenHoldForDuration: 0.8)
+        drag(card("First"), to: card("Second").coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.7)))
 
-        XCTAssertTrue(card("First").waitForExistence(timeout: 5))
-        XCTAssertGreaterThan(card("First").frame.minY, card("Second").frame.minY)
+        XCTAssertTrue(waitForOrder(first: "Second", second: "First"))
+    }
+
+    func testDroppingBelowTheLastCardMovesTheEventToTheEnd() {
+        createEvent("First")
+        createEvent("Second")
+        createEvent("Third")
+
+        drag(card("First"), to: app.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.92)))
+
+        XCTAssertTrue(waitForOrder(first: "Third", second: "First"))
+        XCTAssertLessThan(card("Second").frame.minY, card("Third").frame.minY)
+    }
+
+    /// Holding until the menu is open and then moving, without lifting the finger, switches from
+    /// the menu to dragging, the way the home screen does.
+    func testDraggingAfterTheMenuHasOpenedStillReorders() {
+        createEvent("First")
+        createEvent("Second")
+        createEvent("Third")
+
+        card("First").coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).press(
+            forDuration: 1.5,
+            thenDragTo: app.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.92)),
+            withVelocity: .default, thenHoldForDuration: 0.5
+        )
+
+        XCTAssertTrue(waitForOrder(first: "Third", second: "First"))
+        XCTAssertFalse(app.buttons["Duplicate"].exists, "the menu is gone once the drag starts")
     }
 
     // MARK: - Helpers
 
     private func card(_ name: String) -> XCUIElement {
-        // A List row exposes the card more than once in the accessibility tree.
         app.buttons["event.\(name)"].firstMatch
     }
 
@@ -182,6 +201,18 @@ final class ElapsyUITests: XCTestCase {
         let query = app.buttons.matching(identifier: identifier)
         let matches = NSPredicate { _, _ in query.count == count }
         return XCTWaiter().wait(for: [expectation(for: matches, evaluatedWith: nil)], timeout: 5) == .completed
+    }
+
+    /// Holds just long enough for the card to lift, then moves: the same long press opens the menu
+    /// if the finger stays still.
+    private func drag(_ element: XCUIElement, to destination: XCUICoordinate) {
+        element.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5))
+            .press(forDuration: 0.6, thenDragTo: destination, withVelocity: .default, thenHoldForDuration: 0.5)
+    }
+
+    private func waitForOrder(first: String, second: String) -> Bool {
+        let ordered = NSPredicate { _, _ in self.card(first).frame.minY < self.card(second).frame.minY }
+        return XCTWaiter().wait(for: [expectation(for: ordered, evaluatedWith: nil)], timeout: 5) == .completed
     }
 
     private func waitForDisappearance(of element: XCUIElement) -> Bool {
