@@ -13,8 +13,8 @@ the first testers give feedback.
       here at all; the oldest runtime Xcode lists is iOS 17. Then run the UI tests on that runtime.
 - [x] Android: a real widget preview in the launcher's widget picker (it shows the app icon now).
 - [ ] Final app icon (candidates in `docs/icon-candidates/`; waiting for the choice).
-- [ ] Privacy policy: text is drafted in `docs/store/privacy-policy.md`; it still needs a contact
-      address and a public URL (both stores require one).
+- [ ] Privacy policy: published at https://gen1nya.github.io/elapsy/store/privacy-policy from
+      `docs/store/privacy-policy.md`; the contact address is still a placeholder.
 - [ ] Store listings in Russian and English: drafted in `docs/store/listing.md`, to be reviewed.
 - [ ] Store screenshots for iPhone and Android.
 - [ ] Google Play: closed test with 12 testers for 14 days (required for new personal accounts).
@@ -44,7 +44,7 @@ the first testers give feedback.
 
 ## Technical debt
 
-- [ ] CI: core tests and both builds on every push.
+- [x] CI: core tests and both builds on every push (`.github/workflows/ci.yml`).
 - [ ] Storage errors from the Kotlin core do not reach the user on iOS.
 - [ ] Move the iOS widget configuration to App Intents once iOS 16 support is dropped.
-- [ ] The Mac build host address is hard-coded in `scripts/mac.sh` and changes with DHCP.
+- [x] The Mac build host address moved to the ignored `scripts/mac.local`.

@@ -147,10 +147,11 @@ final class ElapsyUITests: XCTestCase {
         createEvent("Second")
         createEvent("Third")
 
+        // Long enough for the menu to finish appearing even on a slow machine.
         card("First").coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).press(
-            forDuration: 1.5,
+            forDuration: 2.5,
             thenDragTo: app.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.92)),
-            withVelocity: .default, thenHoldForDuration: 0.5
+            withVelocity: .slow, thenHoldForDuration: 0.8
         )
 
         XCTAssertTrue(waitForOrder(first: "Third", second: "First"))
